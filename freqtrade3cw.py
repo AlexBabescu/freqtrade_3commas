@@ -32,10 +32,10 @@ class Freqtrade3cw:
             last_candle = dataframe.iloc[-1]
 
             if last_candle.buy == 1:
-                last_buy_date = strategy.custom_3commas[metadata['pair']].get('last_buy_date', datetime.now(timezone.utc) - timedelta(minutes=2))
+                last_buy_date = strategy.custom_3commas[metadata['pair']].get('last_buy_date', datetime.now(timezone.utc) - timedelta(minutes=1))
 
                 # We don't want to spam 3commas with API calls
-                if datetime.now(timezone.utc) - last_buy_date > timedelta(minutes=1):
+                if datetime.now(timezone.utc) - last_buy_date > timedelta(seconds=30):
                     strategy.custom_3commas[metadata['pair']]['last_buy_date'] = datetime.now(timezone.utc)
 
                     coin, currency = metadata['pair'].split('/')
