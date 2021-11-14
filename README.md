@@ -11,7 +11,7 @@ DCA can be risky, especially if used on bad/shit/meme coins, so please use respo
 
 First you'll need to [create a 3commas account](https://3commas.io/?c=tc331765) and connect 3commas to your exchange.
 Then create a multi-pair long bot with the pairs you want to trade. Here you could actually select all pairs (eg. USDT_ALL) and make the more exact pair selection in freqtrade.
-![enter image description here](https://i.imgur.com/0RCXKk1.png)
+![create a multi-pair long bot](img/create_bot.png)
 
 Next set the **Deal start condition** to **Manual/API**
 
@@ -20,7 +20,7 @@ After electing the pairs, set your order amounts, safety orders and take profit 
 Once you're happy with the settings click **Create bot**
 
 We will also need to write down the bot_id, this can be found in the API example or URL when looking at the bot.
-![enter image description here](https://i.imgur.com/fUjZKje.png)
+![get the bot id](img/bot_id.png)
 
 Now we can start the bot. Since the bot is set to Manual, it won't make any trades.
 
@@ -50,7 +50,8 @@ Open it in your favorite editor and add the following in the json root:
 ```
 
 Fill that with the 3commas credentials and bot_id from the previous steps and your config.json should look something like this:
-![enter image description here](https://i.imgur.com/yDaAZy6.png)
+
+![3commas json config](img/3commas_json.png)
 
 ## Add the wrapper
 
