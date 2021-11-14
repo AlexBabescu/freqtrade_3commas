@@ -47,7 +47,7 @@ class Freqtrade3cw:
 
                     bot_id = strategy.config['3commas']['bot_id']
 
-                    logger.info(f"3Commas: Sending buy signal to 3commas bot_id {bot_id}")
+                    logger.info(f"3Commas: Sending buy signal for {metadata['pair']} to 3commas bot_id={bot_id}")
 
                     error, data = p3cw.request(
                         entity="bots",
