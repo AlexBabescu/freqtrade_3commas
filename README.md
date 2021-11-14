@@ -99,4 +99,6 @@ TODO:
 * send sell signals
 * turn this into a python package
 
+If you have any questions you can find me on discord at `alb#1349`
+
 Have fun!
