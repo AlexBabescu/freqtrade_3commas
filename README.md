@@ -57,7 +57,7 @@ Fill that with the 3commas credentials and bot_id from the previous steps and yo
 
 Now you'll need to download the 3commas wrapper in the **user_data** directory
 ```
-wget freqtrade3cw.py # TODO
+wget https://raw.githubusercontent.com/AlexBabescu/freqtrade_3commas/master/freqtrade3cw.py
 ```
 The wrapper depends on the **py3cw** package. You will need to install it with
 ```
@@ -70,13 +70,13 @@ If you are a Docker user, please refer to the freqtrade documentation on how to 
 All you need is to import Freqtrade3cw into your strategy and decorate the `populate_buy_trend` method.
 ```
 ....
-from  user_data.freqtrade3cw  import  Freqtrade3cw
+from user_data.freqtrade3cw import Freqtrade3cw
 
-class  SampleStrategy(IStrategy):
+class SampleStrategy(IStrategy):
 	....
 
 	@Freqtrade3cw.buy_signal
-	def  populate_buy_trend(self, dataframe: DataFrame, metadata: dict) -> DataFrame:
+	def populate_buy_trend(self, dataframe: DataFrame, metadata: dict) -> DataFrame:
 		....
 ```
 
@@ -84,6 +84,11 @@ class  SampleStrategy(IStrategy):
 
 # Limitations and future work
 
-Currently this only supports sending buy signals. I plan in the future to also add sell signals.
+Currently this only supports sending buy signals.
+
+TODO:
+
+* send sell signals
+* turn this into a python package
 
 Have fun!
