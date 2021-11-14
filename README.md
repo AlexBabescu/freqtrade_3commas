@@ -1,32 +1,35 @@
 # Freqtrade 3commas wrapper
 
-The aim of this project is to provide an easy way to integrade freqtrade with 3commas. The main reason someone would want to do this is to use the auto DCA feature that 3commas provides and unfortunately freqtrade lacks.
+The aim of this project is to provide an easy way to integrate freqtrade with 3commas. The main reason someone would want to do this is to use the auto DCA feature that 3commas provides and unfortunately freqtrade lacks.
 
-DCA can be risky, especially if used on bad/shit/meme coins, so please use responsably.
+DCA can be risky, especially if used on bad/shit/meme coins, so please use responsibly.
 
 
 # Setup in 3commas
 
 ## Make a 3commas account and bot
 
-First you'll need to [create a 3commas account](https://3commas.io/?c=tc331765) and connect 3commas to your exchange.
+First, you'll need to [create a 3commas account](https://3commas.io/?c=tc331765) and connect 3commas to your exchange.
 Then create a multi-pair long bot with the pairs you want to trade. Here you could actually select all pairs (eg. USDT_ALL) and make the more exact pair selection in freqtrade.
+Note, if you're going to use `VolumePairList`, you will need to select all the pairs in 3commas.
+
 ![create a multi-pair long bot](img/create_bot.png)
 
 Next set the **Deal start condition** to **Manual/API**
 
-After electing the pairs, set your order amounts, safety orders and take profit settings. There are plenty of youtube tutorials explaining what these are.
+After electing the pairs, set your order amounts, safety orders and take profit settings. There are plenty of YouTube tutorials explaining what these are.
 
 Once you're happy with the settings click **Create bot**
 
 We will also need to write down the bot_id, this can be found in the API example or URL when looking at the bot.
+
 ![get the bot id](img/bot_id.png)
 
 Now we can start the bot. Since the bot is set to Manual, it won't make any trades.
 
 ## 3commas API
 
-In order to control the 3commas bot with freqtrade we'll need a API key and secret.
+In order to control the 3commas bot with freqtrade we'll need an API key and secret.
 
 You can get these by going to https://3commas.io/api_access_tokens and creating a new API key with **BotsRead** and **BotsWrite**
 
@@ -35,6 +38,7 @@ Save the key and secret, we'll need them later.
 # Freqtrade setup
 
 Freqtrade has excellent documentation available at https://www.freqtrade.io/en/stable/
+
 Follow the tutorial to get started.
 
 ## Add 3commas credential to config.json
@@ -59,7 +63,7 @@ Now you'll need to download the 3commas wrapper in the **user_data** directory
 ```
 wget https://raw.githubusercontent.com/AlexBabescu/freqtrade_3commas/master/freqtrade3cw.py
 ```
-The wrapper depends on the **py3cw** package. You will need to install it with
+The wrapper depends on the **py3cw** package. You will need to install it with:
 ```
 pip install py3cw
 ```
