@@ -1,0 +1,14 @@
+---
+version: '3'
+services:
+  freqtrade:
+    build:
+      context: .
+      dockerfile: "./docker/Dockerfile.custom"
+    restart: unless-stopped
+    container_name: freqtrade_3commas
+    volumes:
+      - "./user_data:/freqtrade/user_data"
+    ports:
+      - 8080:8080
+    command: trade --config /freqtrade/user_data/example_config.json
