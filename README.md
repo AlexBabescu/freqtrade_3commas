@@ -84,6 +84,10 @@ class SampleStrategy(IStrategy):
 		....
 ```
 
+## Starting freqtrade
+
+Freqtrade should be configured to run in dry-mode on the same exchange as your 3commas bot.
+If you are going to use `VolumePairList` then you must set your 3commas bot to use all the pairs.
 
 
 # Limitations and future work
