@@ -6,14 +6,15 @@ import numpy as np  # noqa
 import pandas as pd  # noqa
 from pandas import DataFrame
 
-from freqtrade.strategy import (IStrategy, IntParameter)
+from freqtrade.strategy import (BooleanParameter, CategoricalParameter, DecimalParameter,
+                                IStrategy, IntParameter)
 
 # --------------------------------
 # Add your lib to import here
 import talib.abstract as ta
 import freqtrade.vendor.qtpylib.indicators as qtpylib
 
-from freqtrade3cw import Freqtrade3cw
+from user_data.freqtrade3cw import Freqtrade3cw
 
 # This class is a sample. Feel free to customize it.
 class SampleStrategy(IStrategy):

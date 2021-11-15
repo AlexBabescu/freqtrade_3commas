@@ -5,7 +5,6 @@
         "bot_id": 123456
     },
     "strategy": "SampleStrategy",
-    "strategy_path": "/strategies",
     "max_open_trades": 3,
     "stake_currency": "USDT",
     "stake_amount": 100,
