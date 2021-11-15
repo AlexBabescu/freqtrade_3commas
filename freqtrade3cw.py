@@ -18,7 +18,7 @@ class Freqtrade3cw:
 
             strategy, _, metadata = args
 
-            if strategy.dp.runmode.value in ('backtest', 'hyperopt'):
+            if strategy.dp.runmode.value not in ('live', 'dry_run'):
                 return dataframe
 
             assert '3commas' in strategy.config, "Missing 3commas configuration!"
