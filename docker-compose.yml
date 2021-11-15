@@ -1,14 +1,47 @@
 ---
 version: '3'
 services:
-  freqtrade:
+  signal_1:
     build:
       context: .
       dockerfile: "./docker/Dockerfile.custom"
     restart: unless-stopped
-    container_name: freqtrade_3commas
+    container_name: "signal_1"
     volumes:
-      - "./user_data:/freqtrade/user_data"
+      - "./bots_data/signal_1:/freqtrade/user_data"
+      - "./signal_1.json:/config.json"
     ports:
-      - 8080:8080
-    command: trade --config /freqtrade/user_data/example_config.json
+      - 8081:8080
+    command: >
+      trade
+      --config /config.json
+
+#  signal_2:
+#    build:
+#      context: .
+#      dockerfile: "./docker/Dockerfile.custom"
+#    restart: unless-stopped
+#    container_name: "signal_2"
+#    volumes:
+#      - "./bots_data/signal_2:/freqtrade/user_data"
+#      - "./signal_2.json:/config.json"
+#    ports:
+#      - 8082:8080
+#    command: >
+#      trade
+#      --config /config.json
+#
+#  signal_3:
+#    build:
+#      context: .
+#      dockerfile: "./docker/Dockerfile.custom"
+#    restart: unless-stopped
+#    container_name: "signal_3"
+#    volumes:
+#      - "./bots_data/signal_3:/freqtrade/user_data"
+#      - "./signal_3.json:/config.json"
+#    ports:
+#      - 8083:8080
+#    command: >
+#      trade
+#      --config /config.json
