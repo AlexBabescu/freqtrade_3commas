@@ -61,7 +61,7 @@ Fill that with the 3commas credentials and bot_id from the previous steps and yo
 
 Now you'll need to download the 3commas wrapper in the **user_data** directory
 ```
-wget https://raw.githubusercontent.com/AlexBabescu/freqtrade_3commas/master/freqtrade3cw.py
+wget https://raw.githubusercontent.com/AlexBabescu/freqtrade_3commas/master/user_data/freqtrade3cw.py
 ```
 The wrapper depends on the **py3cw** package. You will need to install it with:
 ```
