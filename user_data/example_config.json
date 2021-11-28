@@ -2,7 +2,11 @@
     "3commas": {
         "key": "3commas_key_goes_here",
         "secret": "3commas_secret_goes_here",
-        "bot_id": 123456
+        "bot_ids": [
+            123456,
+            654321,
+            346363
+        ]
     },
     "strategy": "SampleStrategy",
     "max_open_trades": 3,

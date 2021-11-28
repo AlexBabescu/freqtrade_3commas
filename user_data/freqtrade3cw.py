@@ -45,24 +45,32 @@ class Freqtrade3cw:
                         secret=strategy.config['3commas']['secret'],
                     )
 
-                    bot_id = strategy.config['3commas']['bot_id']
+                    bot_ids = []
 
-                    logger.info(f"3Commas: Sending buy signal for {metadata['pair']} to 3commas bot_id={bot_id}")
+                    if 'bot_id' in strategy.config['3commas'] and 'bot_ids' not in strategy.config['3commas']:
+                        bot_ids.append(strategy.config['3commas']['bot_id'])
+                        logger.warning(f"3Commas: Deprecated bot_id settings are present, please update your config!")
 
-                    error, data = p3cw.request(
-                        entity="bots",
-                        action="start_new_deal",
-                        action_id=f"{bot_id}",
-                        payload={
-                            "bot_id": f"{bot_id}",
-                            "pair": f"{currency}_{coin}",
-                        },
-                    )
+                    if 'bot_ids' in strategy.config['3commas']:
+                        bot_ids += strategy.config['3commas']['bot_ids']
 
-                    if error:
-                        logger.error(f"3Commas: {error['msg']}")
-                    else:
-                        logger.info(f"3Commas: {data['bot_events'][0]['message']}")
+                    for bot_id in bot_ids:
+                        logger.info(f"3Commas: Sending buy signal for {metadata['pair']} to 3commas bot_id={bot_id}")
+
+                        error, data = p3cw.request(
+                            entity="bots",
+                            action="start_new_deal",
+                            action_id=f"{bot_id}",
+                            payload={  # type: ignore
+                                "bot_id": f"{bot_id}",
+                                "pair": f"{currency}_{coin}",
+                            },
+                        )
+
+                        if error:
+                            logger.error(f"3Commas: {error['msg']}")
+                        else:
+                            logger.info(f"3Commas: {data['bot_events'][0]['message']}")  # type: ignore
 
             return dataframe
         return wrapper_decorator
