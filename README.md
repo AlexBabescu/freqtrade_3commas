@@ -49,7 +49,9 @@ Open it in your favorite editor and add the following in the json root:
 "3commas": {
 	"key": "3commas_key_goes_here",
 	"secret": "3commas_secret_goes_here",
-	"bot_id": 123456
+	"bot_ids": [
+		123456
+	]
 },
 ```
 
