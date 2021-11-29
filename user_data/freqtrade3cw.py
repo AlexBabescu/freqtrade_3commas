@@ -70,7 +70,11 @@ class Freqtrade3cw:
                         if error:
                             logger.error(f"3Commas: {error['msg']}")
                         else:
-                            logger.info(f"3Commas: {data['bot_events'][0]['message']}")  # type: ignore
+                            try:  # try/except because the response isn't always clear
+                                logger.info(f"3Commas: {data['bot_events'][0]['message']}")  # type: ignore
+                            except (IndexError, KeyError):
+                                pass
+
 
             return dataframe
         return wrapper_decorator
