@@ -1,5 +1,4 @@
 import logging
-from datetime import datetime, timedelta, timezone
 from functools import wraps
 
 from py3cw.request import Py3CW
@@ -31,49 +30,53 @@ class Freqtrade3cw:
 
             last_candle = dataframe.iloc[-1]
 
-            if last_candle.buy == 1:
-                last_buy_date = strategy.custom_3commas[metadata['pair']].get('last_buy_date', datetime.now(timezone.utc) - timedelta(minutes=1))
+            if last_candle.buy != 1:
+                return dataframe
 
-                # We don't want to spam 3commas with API calls
-                if datetime.now(timezone.utc) - last_buy_date > timedelta(seconds=30):
-                    strategy.custom_3commas[metadata['pair']]['last_buy_date'] = datetime.now(timezone.utc)
+            last_buy_date = strategy.custom_3commas[metadata['pair']].get('last_buy_date', None)
 
-                    coin, currency = metadata['pair'].split('/')
+            # We don't want to spam 3commas with API calls
+            if last_candle.date == last_buy_date:
+                return dataframe
 
-                    p3cw = Py3CW(
-                        key=strategy.config['3commas']['key'],
-                        secret=strategy.config['3commas']['secret'],
-                    )
+            strategy.custom_3commas[metadata['pair']]['last_buy_date'] = last_candle.date
 
-                    bot_ids = []
+            coin, currency = metadata['pair'].split('/')
 
-                    if 'bot_id' in strategy.config['3commas'] and 'bot_ids' not in strategy.config['3commas']:
-                        bot_ids.append(strategy.config['3commas']['bot_id'])
-                        logger.warning(f"3Commas: Deprecated bot_id settings are present, please update your config!")
+            p3cw = Py3CW(
+                key=strategy.config['3commas']['key'],
+                secret=strategy.config['3commas']['secret'],
+            )
 
-                    if 'bot_ids' in strategy.config['3commas']:
-                        bot_ids += strategy.config['3commas']['bot_ids']
+            bot_ids = []
 
-                    for bot_id in bot_ids:
-                        logger.info(f"3Commas: Sending buy signal for {metadata['pair']} to 3commas bot_id={bot_id}")
+            if 'bot_id' in strategy.config['3commas'] and 'bot_ids' not in strategy.config['3commas']:
+                bot_ids.append(strategy.config['3commas']['bot_id'])
+                logger.warning(f"3Commas: Deprecated bot_id settings are present, please update your config!")
 
-                        error, data = p3cw.request(
-                            entity="bots",
-                            action="start_new_deal",
-                            action_id=f"{bot_id}",
-                            payload={  # type: ignore
-                                "bot_id": f"{bot_id}",
-                                "pair": f"{currency}_{coin}",
-                            },
-                        )
+            if 'bot_ids' in strategy.config['3commas']:
+                bot_ids += strategy.config['3commas']['bot_ids']
 
-                        if error:
-                            logger.error(f"3Commas: {error['msg']}")
-                        else:
-                            try:  # try/except because the response isn't always clear
-                                logger.info(f"3Commas: {data['bot_events'][0]['message']}")  # type: ignore
-                            except (IndexError, KeyError):
-                                pass
+            for bot_id in bot_ids:
+                logger.info(f"3Commas: Sending buy signal for {metadata['pair']} to 3commas bot_id={bot_id}")
+
+                error, data = p3cw.request(
+                    entity="bots",
+                    action="start_new_deal",
+                    action_id=f"{bot_id}",
+                    payload={  # type: ignore
+                        "bot_id": f"{bot_id}",
+                        "pair": f"{currency}_{coin}",
+                    },
+                )
+
+                if error:
+                    logger.error(f"3Commas: {error['msg']}")
+                else:
+                    try:  # try/except because the response isn't always clear
+                        logger.info(f"3Commas: {data['bot_events'][0]['message']}")  # type: ignore
+                    except (IndexError, KeyError):
+                        pass
 
 
             return dataframe
