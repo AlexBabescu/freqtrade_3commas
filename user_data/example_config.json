@@ -6,7 +6,9 @@
             123456,
             654321,
             346363
-        ]
+        ],
+        "max_deals_per_coin": 1,
+        "max_deals_per_coin_mode": "real"  // "real" or "paper"
     },
     "strategy": "SampleStrategy",
     "max_open_trades": 3,

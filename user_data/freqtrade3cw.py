@@ -48,6 +48,31 @@ class Freqtrade3cw:
                 secret=strategy.config['3commas']['secret'],
             )
 
+            if 'max_deals_per_coin' in strategy.config['3commas']:
+                req = dict(
+                    entity="deals",
+                    action="",
+                    payload={
+                        "limit": 500,
+                        "scope": "active",
+                        "base": f"{coin}"
+                        }
+                )
+                if "max_deals_per_coin_mode" in strategy.config['3commas']:
+                    req.update(
+                        additional_headers={'Forced-Mode': strategy.config['3commas']['max_deals_per_coin_mode']}
+                    )
+
+                error, data = p3cw.request(**req)
+
+                if error:
+                    logger.error(f"3Commas: {error['msg']}")
+                    return dataframe
+
+                if len(data) <= strategy.config['3commas']['max_deals_per_coin']:
+                    logger.info(f"3Commas: Maximum number of deals for {coin} is already open. Not creating a new deal.")
+                    return dataframe
+
             bot_ids = []
 
             if 'bot_id' in strategy.config['3commas'] and 'bot_ids' not in strategy.config['3commas']:
@@ -77,7 +102,6 @@ class Freqtrade3cw:
                         logger.info(f"3Commas: {data['bot_events'][0]['message']}")  # type: ignore
                     except (IndexError, KeyError):
                         pass
-
 
             return dataframe
         return wrapper_decorator
