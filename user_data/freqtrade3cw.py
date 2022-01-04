@@ -69,7 +69,7 @@ class Freqtrade3cw:
                     logger.error(f"3Commas: {error['msg']}")
                     return dataframe
 
-                if len(data) <= strategy.config['3commas']['max_deals_per_coin']:
+                if len(data) >= strategy.config['3commas']['max_deals_per_coin']:
                     logger.info(f"3Commas: Maximum number of deals for {coin} is already open. Not creating a new deal.")
                     return dataframe
 
